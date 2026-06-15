@@ -19,6 +19,10 @@ interface MyRouterContext {
   queryClient: QueryClient;
 }
 
+declare global {
+  const __UMAMI_SRC__: string;
+}
+
 export const Route = createRootRouteWithContext<MyRouterContext>()({
   beforeLoad: async ({ context }) => {
     const siteConfig =
@@ -97,15 +101,16 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
           href: "/feed.json",
         },
       ],
-      scripts: env.VITE_UMAMI_WEBSITE_ID
-        ? [
-            {
-              src: "/stats.js",
-              defer: true,
-              "data-website-id": env.VITE_UMAMI_WEBSITE_ID,
-            },
-          ]
-        : [],
+      scripts:
+        env.VITE_UMAMI_WEBSITE_ID && __UMAMI_SRC__
+          ? [
+              {
+                src: __UMAMI_SRC__,
+                defer: true,
+                "data-website-id": env.VITE_UMAMI_WEBSITE_ID,
+              },
+            ]
+          : [],
     };
   },
   shellComponent: RootDocument,
