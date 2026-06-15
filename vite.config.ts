@@ -24,6 +24,7 @@ const config = defineConfig(({ mode }) => {
       __APP_VERSION__: JSON.stringify(packageJson.version),
       __THEME_NAME__: JSON.stringify(buildEnv.THEME),
       __THEME_CONFIG__: JSON.stringify(themes[buildEnv.THEME]),
+      __UMAMI_SRC__: JSON.stringify(env.VITE_UMAMI_SRC || ""),
     },
     resolve: {
       alias: {
